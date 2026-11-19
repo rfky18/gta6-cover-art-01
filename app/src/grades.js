@@ -53,19 +53,32 @@ export const GRADES = {
     washAlpha: 0.2,
     band: ['#2a2118', '#3a2c1c', '#4a3822'],
   },
+// v4: Poster Ink is now the DEFAULT cover grade (One Subject preset) and
+// is flatter/posterized ala #1 HEATWAVE — halftone dots larger + fainter
+// (alpha 0.13 -> 0.09), film grain cut to a quarter on ink covers (grain
+// is what made v2's halftone read noisy), and a sunset wash (was: none)
+// so daylight-blue panels — pier, beach sky — are pulled FULLY into the
+// sunset palette instead of staying cold. Posterize levels TESTED 3 vs 4:
+// 3 flattened the hero's face to a single orange blob (mouth lost), 4
+// keeps the face readable while the panels still read as one flat poster.
+// Wash tested 0.22 vs 0.34: 0.34 warms the panels further (rooftop sky,
+// beach) while the hero face stays readable; the pier sea itself stays
+// turquoise (its saturation resists a 'color' wash below face-wrecking
+// strength) but is now posterized + halftone-unified with the rest.
   'poster-ink': {
     name: 'Poster Ink',
     blurb: 'Halftone comic ink: posterized colour, ink outline, dot screen.',
-    filter: 'saturate(1.7) contrast(1.42) brightness(1.02)',
+    filter: 'saturate(1.55) contrast(1.35) brightness(1.04)',
     overlay: ['#ffd166', '#ff5da2'],
-    overlayAlpha: 0.08,
+    overlayAlpha: 0.2,
     overlayMode: 'overlay',
     vignette: 0.14,
     posterize: true,
+    posterLevels: 4,
     halftone: true,
-    halftoneAlpha: 0.13,
-    wash: null,
-    washAlpha: 0,
+    halftoneAlpha: 0.09,
+    wash: '#ff9a5c',
+    washAlpha: 0.34,
     band: ['#241019', '#3a1526', '#4a1a2e'],
   },
 };

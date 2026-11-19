@@ -30,22 +30,24 @@ let dotTile = null;
 function getDotTile() {
   if (dotTile) return dotTile;
   const c = document.createElement('canvas');
-  c.width = 8;
-  c.height = 8;
+  // v4: coarser dot screen (8px -> 10px tile) — flatter poster feel, less noise.
+  c.width = 10;
+  c.height = 10;
   const g = c.getContext('2d');
   g.fillStyle = '#000000';
   g.beginPath();
-  g.arc(4, 4, 1.6, 0, Math.PI * 2);
+  g.arc(5, 5, 1.9, 0, Math.PI * 2);
   g.fill();
   dotTile = c;
   return c;
 }
 
-/** Quantizes a panel's pixels to a few levels (the Poster Ink treatment). */
-function posterizeRegion(ctx, x, y, w, h) {
+/** Quantizes a panel's pixels to a few levels (the Poster Ink treatment).
+ *  v4: level count comes from the grade (posterLevels) — 3 levels is the
+ *  flat #1 HEATWAVE look, 4 is the noisier v2 look. */
+function posterizeRegion(ctx, x, y, w, h, levels) {
   const img = ctx.getImageData(x, y, w, h);
   const d = img.data;
-  const levels = 4;
   const step = 256 / levels;
   for (let i = 0; i < d.length; i += 4) {
     d[i] = Math.floor(d[i] / step) * step + step / 2;
@@ -135,7 +137,7 @@ export function drawCover(ctx, W, H, state, images) {
       ctx.fillRect(x, y, w, h);
       ctx.restore();
     }
-    if (grade.posterize && img) posterizeRegion(ctx, Math.round(x), Math.round(y), Math.round(w), Math.round(h));
+    if (grade.posterize && img) posterizeRegion(ctx, Math.round(x), Math.round(y), Math.round(w), Math.round(h), grade.posterLevels || 4);
     if (grade.halftone) {
       ctx.globalAlpha = grade.halftoneAlpha || 0.1;
       ctx.globalCompositeOperation = 'multiply';
@@ -175,7 +177,9 @@ export function drawCover(ctx, W, H, state, images) {
   }
 
   // Film grain.
-  const grain = adjust.grain == null ? 0.3 : adjust.grain;
+  // v4: on Poster Ink covers the grain is cut to a quarter — the flat
+  // poster look must not be re-noised by the grain pass (v2's noise).
+  const grain = (adjust.grain == null ? 0.3 : adjust.grain) * (grade.posterize ? 0.25 : 1);
   if (grain > 0.01) {
     ctx.save();
     ctx.globalAlpha = grain * 0.45;
