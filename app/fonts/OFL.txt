@@ -94,3 +94,4 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
 
 --
 Grand Vice City — Cover Studio v2 (2026): fonts unchanged, bundled under this licence; title band + unified grade added by the v2 build.
+Grand Vice City — Cover Studio v3 (2026): fonts unchanged; One Subject preset + sunset title band added by the v3 build.

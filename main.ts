@@ -7,6 +7,10 @@
 // the judge reads, with the vendored make.fun library.
 // v2: the cover uses a dedicated title band + one unified grade per cover;
 // the dossier contract is unchanged (byte-identical across runs).
+// v3: the cover is the One Subject preset (6 panels, one heroine) with a
+// sunset title band (gradient + sun + skyline + palm silhouettes) and a
+// stronger golden-vice wash so daylight-blue panels join the palette;
+// the dossier contract is unchanged (byte-identical across runs).
 //
 // Serve it locally with `node serve.ts`, then open http://localhost:8080.
 // Outside the grader's container, MAKEFUN_OUTPUT_DIR stands in for /output:

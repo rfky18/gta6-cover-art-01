@@ -64,6 +64,87 @@ function starburst(ctx, cx, cy, rOuter, rInner, points) {
   ctx.closePath();
 }
 
+// v3: the band is a designed sunset scene, not a flat fill — a magenta to
+// gold gradient sky, a low sun half-hidden behind a procedural skyline, and
+// two palm silhouettes at the band's edges (ala #3 SUNSET BOULEVARD's title
+// block). The sky's top stop comes from the grade's band colours so each
+// grade keeps its identity; the silhouettes stay dark and low so the bright
+// gradient title on top keeps full contrast.
+function drawPalm(ctx, x, baseY, h, lean) {
+  const crownX = x + lean * h * 0.28;
+  const crownY = baseY - h;
+  ctx.save();
+  ctx.fillStyle = '#12060f';
+  // Trunk: a tapered quad strip leaning toward the crown.
+  const w0 = Math.max(3, h * 0.045);
+  ctx.beginPath();
+  ctx.moveTo(x - w0, baseY);
+  ctx.quadraticCurveTo(x + lean * h * 0.1, baseY - h * 0.55, crownX - w0 * 0.4, crownY);
+  ctx.lineTo(crownX + w0 * 0.4, crownY);
+  ctx.quadraticCurveTo(x + lean * h * 0.1 + w0, baseY - h * 0.55, x + w0, baseY);
+  ctx.closePath();
+  ctx.fill();
+  // Fronds: 6 drooping blades fanning out of the crown.
+  for (let i = 0; i < 6; i += 1) {
+    const a = (-Math.PI * 0.08) - (i * Math.PI) / 7.5 + (lean > 0 ? 0.15 : -0.15);
+    const len = h * (0.52 - Math.abs(i - 2.5) * 0.05);
+    const tipX = crownX + Math.cos(a) * len;
+    const tipY = crownY + Math.sin(a) * len * 0.55 + h * 0.22;
+    const midX = crownX + Math.cos(a) * len * 0.55;
+    const midY = crownY + Math.sin(a) * len * 0.3 - h * 0.06;
+    ctx.beginPath();
+    ctx.moveTo(crownX, crownY);
+    ctx.quadraticCurveTo(midX, midY, tipX, tipY);
+    ctx.quadraticCurveTo(midX + Math.cos(a + 0.5) * len * 0.18, midY + h * 0.1, crownX, crownY);
+    ctx.closePath();
+    ctx.fill();
+  }
+  ctx.restore();
+}
+
+function drawBandBackdrop(ctx, W, bandY, bandH, grade) {
+  const bandColors = grade.band || ['#241019', '#3a1526', '#4a1a2e'];
+  const sky = ctx.createLinearGradient(0, bandY, 0, bandY + bandH);
+  sky.addColorStop(0, bandColors[0]);
+  sky.addColorStop(0.45, '#6e1b4d');
+  sky.addColorStop(0.78, '#c94b3a');
+  sky.addColorStop(1, '#f2a94e');
+  ctx.save();
+  ctx.fillStyle = sky;
+  ctx.fillRect(0, bandY, W, bandH);
+  // Low sun, half-hidden behind the skyline at the band's bottom edge.
+  const sunX = W * 0.68;
+  const sunY = bandY + bandH * 0.97;
+  const sunR = bandH * 0.26;
+  const glow = ctx.createRadialGradient(sunX, sunY, 0, sunX, sunY, sunR * 2.4);
+  glow.addColorStop(0, 'rgba(255,214,102,0.8)');
+  glow.addColorStop(0.45, 'rgba(255,142,110,0.32)');
+  glow.addColorStop(1, 'rgba(255,142,110,0)');
+  ctx.fillStyle = glow;
+  ctx.fillRect(sunX - sunR * 2.4, sunY - sunR * 2.4, sunR * 4.8, sunR * 4.8);
+  ctx.fillStyle = '#ffd166';
+  ctx.beginPath();
+  ctx.arc(sunX, sunY, sunR, 0, Math.PI * 2);
+  ctx.fill();
+  // Skyline strip along the bottom: varied rooflines + one antenna.
+  const skyH = bandH * 0.17;
+  const skyY = bandY + bandH - skyH;
+  ctx.fillStyle = '#12060f';
+  let bx = W * 0.07;
+  const blocks = [0.5, 0.85, 0.4, 1, 0.65, 0.9, 0.45, 0.75, 0.55, 1, 0.6, 0.8];
+  blocks.forEach((f, i) => {
+    const bw = W * 0.068;
+    const bh = skyH * f;
+    ctx.fillRect(bx, skyY + (skyH - bh), bw, bh);
+    if (i === 4) ctx.fillRect(bx + bw * 0.42, skyY - skyH * 0.55, Math.max(2, W * 0.002), skyH * 0.55);
+    bx += bw + W * 0.006;
+  });
+  // Palms at the far edges, crowns low so fronds frame — never cover — the title.
+  drawPalm(ctx, W * 0.012, bandY + bandH, bandH * 0.52, 1);
+  drawPalm(ctx, W * 0.988, bandY + bandH, bandH * 0.44, -1);
+  ctx.restore();
+}
+
 function drawTitle(ctx, title, titleFace, size, x, y, maxWidth, colors) {
   ctx.save();
   ctx.textAlign = 'left';
@@ -99,12 +180,10 @@ export function drawLettering(ctx, W, H, state) {
     // --- dedicated title band: panels end above it, type lives inside it.
     const bandH = Math.round(H * layout.band);
     const bandY = H - bandH;
-    const bandColors = grade.band || ['#241019', '#3a1526', '#4a1a2e'];
-    const bg = ctx.createLinearGradient(0, bandY, 0, H);
-    bandColors.forEach((c, i) => bg.addColorStop(bandColors.length === 1 ? 0 : i / (bandColors.length - 1), c));
+    // v3: the band is a sunset scene (gradient + sun + skyline + palms),
+    // not the flat gradient fill v2 used — see drawBandBackdrop above.
     ctx.save();
-    ctx.fillStyle = bg;
-    ctx.fillRect(0, bandY, W, bandH);
+    drawBandBackdrop(ctx, W, bandY, bandH, grade);
     ctx.fillStyle = '#f2c14e';
     ctx.fillRect(0, bandY, W, Math.max(2, Math.round(H * 0.004)));
     ctx.restore();

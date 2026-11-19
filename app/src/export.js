@@ -1,6 +1,8 @@
 // export.js — renders the cover at an exact post size and downloads it
 // as a PNG. Rendering is deterministic: same state, same bytes.
 // v2: rejects non-finite sizes instead of rendering a broken canvas.
+// v3: unchanged contract — the v3 cover (6 panels, sunset band backdrop)
+// exports through the same deterministic path, all three sizes.
 import { drawCover } from './cover.js';
 
 export const EXPORT_SIZES = [

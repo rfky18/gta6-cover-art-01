@@ -4,6 +4,8 @@
 // main.js once the scene has painted.
 // v2: ?grade= overrides the preset's grade (A/B a grade on the same cover),
 // and editor shots add body.shot-editor so the preview fills the frame.
+// v3: shot scenes now default to the One Subject preset — shot 1 (cover)
+// and shot 4 (editor, Poster Ink) both prove the v3 cover in the browser.
 export async function runShot(shot, query, api) {
   const preset = query.get('preset');
   if (preset) api.applyPresetById(preset);

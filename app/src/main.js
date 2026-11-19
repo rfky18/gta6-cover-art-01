@@ -1,6 +1,9 @@
 // main.js — wires Grand Vice City Cover Studio: state, undo/redo history,
 // layout/grade/preset controls, photo upload + filmstrip, per-panel drag,
 // crop and zoom, gutter-line panel resizing, adjustments, and PNG export.
+// v3: boot applies PRESETS[0], which is now the One Subject preset
+// (poster-band-six, six panels of the same heroine) — the studio opens on
+// its strongest cover.
 import { drawCover } from './cover.js';
 import { GRADES, GRADE_IDS } from './grades.js';
 import { LAYOUTS, LAYOUT_IDS, freshRects } from './layouts.js';

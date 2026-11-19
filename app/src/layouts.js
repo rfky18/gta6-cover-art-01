@@ -5,7 +5,22 @@
 // v2: `poster-band` reserves the bottom 34% of the cover for the dedicated
 // title band (lettering.js draws the band + title there), so the giant title
 // never covers a face or a hero's body — the layout the default preset uses.
+// v3: `poster-band-six` adds a sixth panel (a wide sunset strip under the
+// four small panels) so the cover reads denser, ala #1's 9-panel HEATWAVE,
+// without crowding: the hero keeps its 0.56 width and the band stays 34%.
 export const LAYOUTS = {
+  'poster-band-six': {
+    name: 'Poster band six',
+    band: 0.34,
+    panels: [
+      { x: 0, y: 0, w: 0.56, h: 0.66 },
+      { x: 0.56, y: 0, w: 0.22, h: 0.22 },
+      { x: 0.78, y: 0, w: 0.22, h: 0.22 },
+      { x: 0.56, y: 0.22, w: 0.22, h: 0.22 },
+      { x: 0.78, y: 0.22, w: 0.22, h: 0.22 },
+      { x: 0.56, y: 0.44, w: 0.44, h: 0.22 },
+    ],
+  },
   'poster-band': {
     name: 'Poster band',
     band: 0.34,

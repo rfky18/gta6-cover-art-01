@@ -124,6 +124,17 @@ export function drawCover(ctx, W, H, state, images) {
       ctx.fillRect(x, y, w, h);
       ctx.restore();
     }
+    // v3: a second warm pass ('soft-light') pushes daylight-blue panels
+    // (the pier: blue sky, turquoise sea) further toward the sunset
+    // palette without flattening the photo — the v2 wash alone left it blue.
+    if (grade.wash && grade.washAlpha && img) {
+      ctx.save();
+      ctx.globalCompositeOperation = 'soft-light';
+      ctx.globalAlpha = grade.washAlpha * 0.9;
+      ctx.fillStyle = grade.wash;
+      ctx.fillRect(x, y, w, h);
+      ctx.restore();
+    }
     if (grade.posterize && img) posterizeRegion(ctx, Math.round(x), Math.round(y), Math.round(w), Math.round(h));
     if (grade.halftone) {
       ctx.globalAlpha = grade.halftoneAlpha || 0.1;

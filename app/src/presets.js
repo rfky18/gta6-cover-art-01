@@ -7,7 +7,34 @@
 // summer-1997 is fixed (title is GRAND VICE CITY in the band, no more
 // giant date covering mouths); neon-nights and pier-lights now put a real
 // night photo in the hero panel, so the neon grade matches the hero.
+// v3: `one-subject` is the first preset (and the boot default) — ONE woman,
+// the boulevard heroine, in all six panels, ala #2 SUN HEIST (one man +
+// one Porsche in 5 panels). Same photo, different crops/zooms: hero,
+// face close-up, red-car detail, denim/belt detail, mid figure, wide face strip.
+// No second person anywhere, so the cover reads as one story, one palette.
+// v3 tuning: panel 4 is the denim detail (the palms crop duplicated the
+// face close-up), panel 6's oy keeps her eyes in the wide strip in both
+// landscape and square aspects (oy -0.95 showed only the top of her head).
 export const PRESETS = [
+  {
+    id: 'one-subject',
+    name: 'One Subject',
+    layout: 'poster-band-six',
+    grade: 'golden-vice',
+    title: 'GRAND VICE CITY',
+    subtitle: 'The Lost Generation',
+    location: 'Ocean Drive • Vice City',
+    badge: 'EST. 1997',
+    stamp: 'SUMMER 1997',
+    photos: [
+      { photo: 'boulevard.jpg', oy: -0.65 },
+      { photo: 'boulevard.jpg', zoom: 2.0, ox: 0.35, oy: -0.8 },
+      { photo: 'boulevard.jpg', zoom: 1.7, ox: -0.65, oy: 0.85 },
+      { photo: 'boulevard.jpg', zoom: 1.7, ox: 0.8, oy: 1.0 },
+      { photo: 'boulevard.jpg', zoom: 1.25, ox: 0.15, oy: -0.35 },
+      { photo: 'boulevard.jpg', zoom: 1.1, ox: -0.3, oy: -0.79 },
+    ],
+  },
   {
     id: 'golden-boulevard',
     name: 'Golden Boulevard',

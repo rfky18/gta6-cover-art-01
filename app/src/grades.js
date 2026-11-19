@@ -6,19 +6,23 @@
 // `band` gradient for the dedicated title band. The wash + a stronger overlay
 // are what make five unrelated photos read as ONE graded cover instead of a
 // stock-photo collage — the gap that lost v1 every local-judge duel.
+// v3: golden-vice's wash is stronger (0.18 -> 0.30, overlay 0.30 -> 0.34)
+// so daylight-blue panels (the pier) are pulled into the sunset palette
+// instead of splitting it — the last K1 gap from the v2 local judge.
+// classic-1997's wash rises slightly for the same reason.
 export const GRADES = {
   'golden-vice': {
     name: 'Golden Vice',
     blurb: 'Coral sunset, pastel pink, champagne gold, turquoise ocean.',
     filter: 'saturate(1.35) contrast(1.1) sepia(0.22) hue-rotate(-8deg) brightness(1.03)',
     overlay: ['#ffd166', '#ff8e6e', '#ff5da2'],
-    overlayAlpha: 0.3,
+    overlayAlpha: 0.34,
     overlayMode: 'overlay',
     vignette: 0.32,
     posterize: false,
     halftone: false,
     wash: '#ff9a5c',
-    washAlpha: 0.18,
+    washAlpha: 0.3,
     band: ['#241019', '#3a1526', '#4a1a2e'],
   },
   'neon-crime': {
@@ -46,7 +50,7 @@ export const GRADES = {
     posterize: false,
     halftone: false,
     wash: '#d8b878',
-    washAlpha: 0.15,
+    washAlpha: 0.2,
     band: ['#2a2118', '#3a2c1c', '#4a3822'],
   },
   'poster-ink': {
