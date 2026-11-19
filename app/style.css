@@ -1,0 +1,183 @@
+/* Hallmark stamp: theme custom · genre atmospheric · job: make a cover · signature: the live multi-panel cover · sweep: sloplint after build */
+/* Critique: dark luxury editor, sunset-gold signal, Anton display + Bebas labels; the cover itself is the hero. */
+@font-face { font-family: Anton; src: url("./fonts/Anton-Regular.ttf") format("truetype"); font-display: swap; }
+@font-face { font-family: Pacifico; src: url("./fonts/Pacifico-Regular.ttf") format("truetype"); font-display: swap; }
+@font-face { font-family: "Bebas Neue"; src: url("./fonts/BebasNeue-Regular.ttf") format("truetype"); font-display: swap; }
+:root {
+  --ink: #0b0a0e;
+  --panel: #14121a;
+  --surface: #1c1926;
+  --surface-soft: #262134;
+  --line: #2e2a3d;
+  --text: #f5efe6;
+  --muted: #b8b0c4;
+  --gold: #f2c14e;
+  --gold-deep: #d9a521;
+  --coral: #ff6b5e;
+  --pink: #ff5da2;
+  --teal: #2dd4bf;
+  --focus: #ffd166;
+  --shadow: rgba(0, 0, 0, 0.55);
+  --shadow-strong: rgba(0, 0, 0, 0.6);
+  --radius: 10px;
+  --font-display: Anton, "Arial Narrow", sans-serif;
+  --font-script: Pacifico, cursive;
+  --font-label: "Bebas Neue", "Arial Narrow", sans-serif;
+  --font-body: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+html, body { overflow-x: clip; }
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--ink);
+  color: var(--text);
+  font: 15px/1.5 var(--font-body);
+}
+button, input, select { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 20px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--line);
+}
+.brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.brand-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  flex: none;
+  background: var(--gold);
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: 15px;
+  letter-spacing: 1px;
+  border-radius: 6px;
+}
+.brand-text { font-size: 17px; overflow-wrap: break-word; min-width: 0; }
+.brand-text strong { font-family: var(--font-display); font-weight: 400; letter-spacing: 1px; color: var(--gold); }
+.top-actions { display: flex; gap: 8px; }
+.app {
+  display: grid;
+  grid-template-columns: minmax(0, 340px) minmax(0, 1fr);
+  gap: 0;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+.controls {
+  padding: 20px 20px 32px;
+  background: var(--panel);
+  border-right: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  overflow-y: auto;
+  max-height: calc(100vh - 63px);
+}
+.group { display: flex; flex-direction: column; gap: 12px; }
+.group h2 {
+  margin: 0;
+  text-wrap: balance;
+  font-family: var(--font-label);
+  font-size: 19px;
+  font-weight: 400;
+  letter-spacing: 2px;
+  color: var(--gold);
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 8px;
+}
+.hint { margin: 0; font-size: 13px; color: var(--muted); }
+label { display: flex; flex-direction: column; gap: 4px; font-size: 13px; color: var(--muted); }
+input[type="text"], select {
+  padding: 8px 12px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--text);
+}
+input[type="range"] { width: 100%; accent-color: var(--gold); }
+.upload-label { cursor: pointer; }
+.upload-label input { cursor: pointer; }
+button {
+  padding: 8px 12px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--text);
+}
+button:hover:not(:disabled) { border-color: var(--gold); }
+button:disabled { opacity: 0.45; background: var(--surface-soft); color: var(--muted); cursor: not-allowed; }
+button.primary { background: var(--gold); border-color: var(--gold); color: var(--ink); font-weight: 700; }
+button.primary:hover { background: var(--gold-deep); }
+.picks { display: flex; flex-wrap: wrap; gap: 8px; }
+.pick { padding: 8px 12px; font-size: 13px; }
+.pick.active { background: var(--gold); border-color: var(--gold); color: var(--ink); font-weight: 700; }
+.filmstrip { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.thumb { padding: 0; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; background: var(--surface); }
+.thumb img { display: block; width: 100%; height: 64px; object-fit: cover; }
+.row { display: flex; gap: 8px; flex-wrap: wrap; }
+.row label { flex: 1 1 120px; }
+.stage-wrap {
+  padding: 20px 24px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+  min-width: 0;
+}
+.stage { position: relative; max-width: 100%; }
+#preview {
+  display: block;
+  max-width: 100%;
+  max-height: calc(100vh - 260px);
+  width: auto;
+  height: auto;
+  background: var(--ink);
+  box-shadow: 0 18px 50px var(--shadow);
+  cursor: grab;
+  touch-action: none;
+}
+#preview:active { cursor: grabbing; }
+.panel-hint {
+  position: absolute;
+  display: none;
+  border: 2px solid var(--gold);
+  border-radius: 2px;
+  pointer-events: none;
+  box-shadow: 0 0 0 1px var(--shadow-strong);
+}
+.panel-label { margin: 0; font-size: 13px; color: var(--muted); text-align: center; max-width: 720px; }
+.export-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 12px 16px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+.export-title { font-family: var(--font-label); font-size: 17px; letter-spacing: 2px; color: var(--gold); }
+.status { margin: 0; font-size: 13px; color: var(--muted); text-align: center; }
+body.shot-cover .topbar, body.shot-cover .controls, body.shot-cover .panel-label,
+body.shot-cover .export-bar, body.shot-cover .status, body.shot-cover .panel-hint { display: none; }
+body.shot-cover { background: var(--ink); }
+body.shot-cover .app { display: block; max-width: none; margin: 0; }
+body.shot-cover .stage-wrap { padding: 0; }
+body.shot-cover .stage { max-width: none; }
+body.shot-cover #preview { max-height: none; width: 100%; height: 100vh; object-fit: contain; box-shadow: none; }
+@media (max-width: 900px) {
+  .app { grid-template-columns: minmax(0, 1fr); }
+  .controls { max-height: none; border-right: 0; border-bottom: 1px solid var(--line); }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none; animation: none; }
+}

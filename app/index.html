@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grand Vice City — Cover Studio</title>
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark">GVC</span>
+    <span class="brand-text"><strong>Grand Vice City</strong> Cover Studio</span>
+  </div>
+  <div class="top-actions">
+    <button id="undo" type="button" disabled>Undo</button>
+    <button id="redo" type="button" disabled>Redo</button>
+  </div>
+</header>
+<main class="app">
+  <aside class="controls" aria-label="Cover controls">
+    <section class="group">
+      <h2>Photos</h2>
+      <label class="upload-label">Add your photos
+        <input id="upload" type="file" accept="image/*" multiple>
+      </label>
+      <p class="hint">Drop photos on the cover, or pick from the strip below. Click a photo to put it in the selected panel, double-click to fill every panel. Photos never leave this machine.</p>
+      <div id="filmstrip" class="filmstrip" aria-label="Photo strip"></div>
+      <div class="row">
+        <button id="compose" type="button">Auto-compose</button>
+        <button id="fill-selected" type="button">Fill all with selected</button>
+      </div>
+    </section>
+    <section class="group">
+      <h2>Layout</h2>
+      <div id="layout-picks" class="picks" role="group" aria-label="Panel layout"></div>
+      <p class="hint">Drag a black gutter line on the cover to resize panels.</p>
+    </section>
+    <section class="group">
+      <h2>Grade</h2>
+      <div id="grade-picks" class="picks" role="group" aria-label="Colour grade"></div>
+    </section>
+    <section class="group">
+      <h2>Lettering</h2>
+      <label>Headline <input id="title" type="text" maxlength="30" value="GRAND VICE CITY"></label>
+      <label>Subtitle <input id="subtitle" type="text" maxlength="40" value="The Lost Generation"></label>
+      <label>Location line <input id="location" type="text" maxlength="40" value="Ocean Drive • Vice City"></label>
+      <label>Badge <input id="badge" type="text" maxlength="16" value="EST. 1997"></label>
+      <label>Date stamp <input id="stamp" type="text" maxlength="16" value="SUMMER 1997"></label>
+      <div class="row">
+        <label>Title font
+          <select id="title-font">
+            <option value="anton">Anton</option>
+            <option value="bebas">Bebas Neue</option>
+          </select>
+        </label>
+        <label>Title colour
+          <select id="title-color">
+            <option value="gradient">Sunset gradient</option>
+            <option value="gold">Gold</option>
+            <option value="white">White</option>
+            <option value="pink">Pink</option>
+          </select>
+        </label>
+      </div>
+    </section>
+    <section class="group">
+      <h2>Light and grain</h2>
+      <label>Brightness <input id="brightness" type="range" min="-0.4" max="0.4" step="0.01" value="0"></label>
+      <label>Contrast <input id="contrast" type="range" min="-0.4" max="0.4" step="0.01" value="0"></label>
+      <label>Saturation <input id="saturation" type="range" min="-0.5" max="0.6" step="0.01" value="0"></label>
+      <label>Warmth <input id="warmth" type="range" min="0" max="0.5" step="0.01" value="0"></label>
+      <label>Film grain <input id="grain" type="range" min="0" max="1" step="0.05" value="0.3"></label>
+    </section>
+    <section class="group">
+      <h2>Presets</h2>
+      <div id="preset-picks" class="picks" role="group" aria-label="Cover presets"></div>
+    </section>
+  </aside>
+  <section class="stage-wrap" aria-label="Cover preview">
+    <div id="stage" class="stage">
+      <canvas id="preview" width="960" height="540" aria-label="Live cover preview"></canvas>
+      <div id="panel-hint" class="panel-hint" aria-hidden="true"></div>
+    </div>
+    <p id="panel-label" class="panel-label" role="status"></p>
+    <div class="export-bar">
+      <span class="export-title">Preview size</span>
+      <div id="size-picks" class="picks" role="group" aria-label="Preview size"></div>
+      <button type="button" data-export data-w="1080" data-h="1080">PNG 1080 × 1080</button>
+      <button type="button" data-export data-w="1080" data-h="1350">PNG 1080 × 1350</button>
+      <button type="button" class="primary" data-export data-w="1920" data-h="1080">PNG 1920 × 1080</button>
+    </div>
+    <p id="status" class="status" role="status">Loading sample photos…</p>
+  </section>
+</main>
+<script type="module" src="./src/main.js"></script>
+</body>
+</html>
