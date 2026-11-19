@@ -9,6 +9,10 @@
 // never covers a face or a hero's body. Full-bleed layouts keep the title
 // overlapping the panels, but it now grows to fill the width (up to a
 // taller cap) instead of sitting small in the bottom-left corner.
+// v5: band layouts with layout.titleOverlap lift the title's caps above the
+// band into the panels (ala #2 SUN HEIST), and move the location line to
+// the band's bottom row so the small line is never struck through by the
+// giant letters. The overlap is sized to clear every face (see layouts.js).
 import { GRADES } from './grades.js';
 import { LAYOUTS } from './layouts.js';
 
@@ -184,8 +188,13 @@ export function drawLettering(ctx, W, H, state) {
     // not the flat gradient fill v2 used — see drawBandBackdrop above.
     ctx.save();
     drawBandBackdrop(ctx, W, bandY, bandH, grade);
-    ctx.fillStyle = '#f2c14e';
-    ctx.fillRect(0, bandY, W, Math.max(2, Math.round(H * 0.004)));
+    // v5: overlap mode skips the gold rule at bandY — the title's caps
+    // cross that line, and a 4px rule through the letters would read as
+    // a strike-through instead of a frame edge.
+    if (!layout.titleOverlap) {
+      ctx.fillStyle = '#f2c14e';
+      ctx.fillRect(0, bandY, W, Math.max(2, Math.round(H * 0.004)));
+    }
     ctx.restore();
 
     // Block: location row, giant one-line title, neon script — centred in the band.
@@ -197,10 +206,24 @@ export function drawLettering(ctx, W, H, state) {
     const titleSize = title ? fitFontFill(ctx, title, titleFace, W - pad * 2, titleCap) : 0;
     const capsH = titleSize * 0.88;
     const gap = Math.round(H * 0.012);
-    const blockH = locSize + gap + capsH + gap + scriptSize * 0.75;
-    let top = bandY + Math.max(0, (bandH - blockH) / 2);
+    // v5: overlap mode (layout.titleOverlap) drops the location line from
+    // the block's top row — the title's caps rise above the band there, so
+    // the small line would be struck through by the giant letters. The
+    // block is title + script only, its caps top sitting `overlap` above
+    // the band edge; the location moves to the band's bottom row (drawn
+    // below, over the dark skyline strip, clear of the sun glow).
+    const overlapMode = !!layout.titleOverlap;
+    const overlap = overlapMode ? capsH * layout.titleOverlap : 0;
+    const blockH = overlapMode
+      ? capsH + gap + scriptSize * 0.75
+      : locSize + gap + capsH + gap + scriptSize * 0.75;
+    const top = overlapMode
+      ? bandY - overlap
+      : bandY + Math.max(0, (bandH - blockH) / 2);
+    const titleY = overlapMode ? top + capsH : top + locSize + gap + capsH;
+    const scriptY = titleY + gap + scriptSize * 0.75;
 
-    if (location) {
+    if (location && !overlapMode) {
       ctx.save();
       ctx.font = `${locSize}px "Bebas Neue"`;
       try { ctx.letterSpacing = `${Math.round(locSize * 0.32)}px`; } catch (e) { /* older canvas: plain */ }
@@ -210,6 +233,19 @@ export function drawLettering(ctx, W, H, state) {
       ctx.shadowColor = 'rgba(0,0,0,0.7)';
       ctx.shadowBlur = locSize * 0.3;
       ctx.fillText(location, pad, top + locSize);
+      try { ctx.letterSpacing = '0px'; } catch (e) { /* ignore */ }
+      ctx.restore();
+    }
+    if (location && overlapMode) {
+      ctx.save();
+      ctx.font = `${locSize}px "Bebas Neue"`;
+      try { ctx.letterSpacing = `${Math.round(locSize * 0.32)}px`; } catch (e) { /* older canvas: plain */ }
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'alphabetic';
+      ctx.fillStyle = '#ffffff';
+      ctx.shadowColor = 'rgba(0,0,0,0.7)';
+      ctx.shadowBlur = locSize * 0.3;
+      ctx.fillText(location, pad, bandY + bandH - Math.round(H * 0.035));
       try { ctx.letterSpacing = '0px'; } catch (e) { /* ignore */ }
       ctx.restore();
     }
@@ -238,7 +274,6 @@ export function drawLettering(ctx, W, H, state) {
     }
 
     if (title) {
-      const titleY = top + locSize + gap + capsH;
       drawTitle(ctx, title, titleFace, titleSize, pad, titleY, W - pad * 2, titleColors);
     }
     if (subtitle) {
@@ -249,7 +284,7 @@ export function drawLettering(ctx, W, H, state) {
       ctx.fillStyle = '#ff8fd6';
       ctx.shadowColor = '#ff2ea6';
       ctx.shadowBlur = scriptSize * 0.55;
-      ctx.fillText(subtitle, pad, top + locSize + gap + capsH + gap + scriptSize * 0.75);
+      ctx.fillText(subtitle, pad, scriptY);
       ctx.restore();
     }
   } else {

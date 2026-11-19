@@ -53,30 +53,25 @@ export const GRADES = {
     washAlpha: 0.2,
     band: ['#2a2118', '#3a2c1c', '#4a3822'],
   },
-// v4: Poster Ink is now the DEFAULT cover grade (One Subject preset) and
-// is flatter/posterized ala #1 HEATWAVE — halftone dots larger + fainter
-// (alpha 0.13 -> 0.09), film grain cut to a quarter on ink covers (grain
-// is what made v2's halftone read noisy), and a sunset wash (was: none)
-// so daylight-blue panels — pier, beach sky — are pulled FULLY into the
-// sunset palette instead of staying cold. Posterize levels TESTED 3 vs 4:
-// 3 flattened the hero's face to a single orange blob (mouth lost), 4
-// keeps the face readable while the panels still read as one flat poster.
-// Wash tested 0.22 vs 0.34: 0.34 warms the panels further (rooftop sky,
-// beach) while the hero face stays readable; the pier sea itself stays
-// turquoise (its saturation resists a 'color' wash below face-wrecking
-// strength) but is now posterized + halftone-unified with the rest.
+// v5: Poster Ink goes fully flat, ala #1 HEATWAVE — posterize 3 levels
+// (was 4; v4 tested 3 vs 4 and picked 4 because 3 blobbed the hero face,
+// so v5 re-tests 3 with the flatter pipeline: stronger contrast/saturation
+// to sharpen the quantization edges into geometric shadow shapes, coarser
+// halftone dots at higher alpha, grain still cut to a quarter). If the
+// browser check shows the face blobbing again, the fallback is levels 4
+// with the same stronger dots — flat-max that keeps the face readable.
   'poster-ink': {
     name: 'Poster Ink',
     blurb: 'Halftone comic ink: posterized colour, ink outline, dot screen.',
-    filter: 'saturate(1.55) contrast(1.35) brightness(1.04)',
+    filter: 'saturate(1.6) contrast(1.45) brightness(1.04)',
     overlay: ['#ffd166', '#ff5da2'],
     overlayAlpha: 0.2,
     overlayMode: 'overlay',
     vignette: 0.14,
     posterize: true,
-    posterLevels: 4,
+    posterLevels: 3,
     halftone: true,
-    halftoneAlpha: 0.09,
+    halftoneAlpha: 0.13,
     wash: '#ff9a5c',
     washAlpha: 0.34,
     band: ['#241019', '#3a1526', '#4a1a2e'],

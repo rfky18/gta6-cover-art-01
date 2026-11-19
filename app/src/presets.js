@@ -7,13 +7,18 @@
 // summer-1997 is fixed (title is GRAND VICE CITY in the band, no more
 // giant date covering mouths); neon-nights and pier-lights now put a real
 // night photo in the hero panel, so the neon grade matches the hero.
-// v4: One Subject's grade is now POSTER INK (was golden-vice) — the
-// exported cover is halftone, ala v2's win vs #5, with v3's one-subject
-// story + sunset title band kept. The two detail-crop filler panels are
-// gone: panel 3 is now a wide boulevard scene (palms + street + sky,
-// zoom 1.05, top slice) and panel 4 is the heroine in front of the red
-// car at full width (zoom 1.0, mid-low slice) — all six panels are
-// scenes of the same heroine, no detail crops.
+// v5: One Subject's grade stays POSTER INK and the band stays, but two
+// panels are now TRULY different scenes, not boulevard.jpg crops (the gap
+// that lost v4 vs #2): panel 2 is boulevard-back.jpg — the same heroine
+// from behind, walking down the boulevard at sunset (Pollinations, same
+// character description: curly brown hair, sunglasses, white shirt); panel
+// 3 is boulevard-hood.jpg — the same heroine sitting on the hood of the
+// red classic convertible. Both are AI-made with the heroine's exact
+// outfit/hair/sunglasses, then posterized + halftone-unified with the rest
+// of the cover, so the identity holds at cover scale. The existing repo
+// samples could NOT be used here: heroine-neon is a visibly different
+// woman, rooftop/pierman are men, neon is two different women — putting
+// any of them in a one-subject preset would break the narrative.
 export const PRESETS = [
   {
     id: 'one-subject',
@@ -27,11 +32,16 @@ export const PRESETS = [
     stamp: 'SUMMER 1997',
     photos: [
       { photo: 'boulevard.jpg', oy: -0.65 },
-      { photo: 'boulevard.jpg', zoom: 2.0, ox: 0.35, oy: -0.8 },
+      { photo: 'boulevard-back.jpg', zoom: 1.15, oy: -0.55 },
+      { photo: 'boulevard-hood.jpg', zoom: 1.1, oy: -0.5 },
       { photo: 'boulevard.jpg', zoom: 1.05, ox: 0.5, oy: -0.7 },
       { photo: 'boulevard.jpg', zoom: 1.0, ox: -0.5, oy: 0.35 },
-      { photo: 'boulevard.jpg', zoom: 1.25, ox: 0.15, oy: -0.6 },
-      { photo: 'boulevard.jpg', zoom: 1.1, ox: -0.3, oy: -0.79 },
+      // v5 fix: the wide strip used to be a face close-up whose mouth sat
+      // at ~0.61H — exactly where the overlapping title's caps top lands
+      // (0.607H), so the title hid her mouth. The strip is now the bottom
+      // slice of the same photo (red classic car + street, no face), so the
+      // overlap reads as #2-style title-over-street, never title-over-face.
+      { photo: 'boulevard.jpg', zoom: 1.0, ox: 0, oy: 0.9 },
     ],
   },
   {
@@ -116,4 +126,7 @@ export const SAMPLE_FILES = [
   'pierman.jpg',
   'boulevard.jpg',
   'pier.jpg',
+  // v5: the two new One Subject scenes (same heroine, different moments).
+  'boulevard-back.jpg',
+  'boulevard-hood.jpg',
 ];

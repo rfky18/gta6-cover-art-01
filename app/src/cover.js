@@ -30,13 +30,15 @@ let dotTile = null;
 function getDotTile() {
   if (dotTile) return dotTile;
   const c = document.createElement('canvas');
-  // v4: coarser dot screen (8px -> 10px tile) — flatter poster feel, less noise.
-  c.width = 10;
-  c.height = 10;
+  // v5: coarser dot screen (10px -> 12px tile, dot r 1.9 -> 2.6) — the
+  // #1 HEATWAVE comic-flat look needs dots you can actually see; the
+  // v4 dots were too fine to read as halftone at cover scale.
+  c.width = 12;
+  c.height = 12;
   const g = c.getContext('2d');
   g.fillStyle = '#000000';
   g.beginPath();
-  g.arc(5, 5, 1.9, 0, Math.PI * 2);
+  g.arc(6, 6, 2.6, 0, Math.PI * 2);
   g.fill();
   dotTile = c;
   return c;

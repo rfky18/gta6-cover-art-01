@@ -8,10 +8,16 @@
 // v3: `poster-band-six` adds a sixth panel (a wide sunset strip under the
 // four small panels) so the cover reads denser, ala #1's 9-panel HEATWAVE,
 // without crowding: the hero keeps its 0.56 width and the band stays 34%.
+// v5: `titleOverlap` 0.30 — the giant gradient title's caps rise 30% of
+// their height above the band into the panels (ala #2 SUN HEIST), so the
+// title reads as part of the cover, not a caption strip below it. The
+// overlap is capped so the caps stay clear of every face (hero face ends
+// ~0.35H, the wide-strip face's mouth ~0.56H, caps top ~0.61H).
 export const LAYOUTS = {
   'poster-band-six': {
     name: 'Poster band six',
     band: 0.34,
+    titleOverlap: 0.3,
     panels: [
       { x: 0, y: 0, w: 0.56, h: 0.66 },
       { x: 0.56, y: 0, w: 0.22, h: 0.22 },

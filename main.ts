@@ -12,6 +12,11 @@
 // sunset title band (gradient + sun + skyline + palm silhouettes); the
 // two filler detail crops are replaced by full-scene boulevard crops;
 // the dossier contract is unchanged (byte-identical across runs).
+// v5: the title now overlaps the panels (titleOverlap 0.30 on
+// poster-band-six), two panels are truly different scenes of the same
+// heroine (boulevard-back + boulevard-hood, Pollinations), and Poster Ink
+// goes fully flat (posterize 3, coarser halftone dots); the dossier
+// contract is unchanged (byte-identical across runs).
 //
 // Serve it locally with `node serve.ts`, then open http://localhost:8080.
 // Outside the grader's container, MAKEFUN_OUTPUT_DIR stands in for /output:
