@@ -5,6 +5,8 @@
 // request). This program hands it in: it copies app/ and screenshots/ from
 // beside this file to /output and writes /output/dossier.json, the summary
 // the judge reads, with the vendored make.fun library.
+// v2: the cover uses a dedicated title band + one unified grade per cover;
+// the dossier contract is unchanged (byte-identical across runs).
 //
 // Serve it locally with `node serve.ts`, then open http://localhost:8080.
 // Outside the grader's container, MAKEFUN_OUTPUT_DIR stands in for /output:

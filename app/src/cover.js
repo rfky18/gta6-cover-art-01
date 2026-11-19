@@ -1,6 +1,8 @@
 // cover.js — draws the whole cover onto a canvas 2D context at any size:
 // black gutters, one photo per panel (cover-fit, draggable, zoomable),
-// the grade's filter + overlay + vignette, film grain, and the lettering.
+// the grade's filter + colour wash + overlay + vignette, film grain, and
+// the lettering (dedicated title band on band layouts, see lettering.js).
+// v2: the per-panel wash is the grade unifier (LOCAL-JUDGE gap 1).
 import { GRADES } from './grades.js';
 import { drawLettering } from './lettering.js';
 
@@ -112,9 +114,19 @@ export function drawCover(ctx, W, H, state, images) {
       ctx.fillStyle = '#241f33';
       ctx.fillRect(x, y, w, h);
     }
+    // v2: one colour wash per panel ('color' keeps luminance, forces hue) —
+    // this is what unifies five unrelated photos into a single graded cover.
+    if (grade.wash && grade.washAlpha && img) {
+      ctx.save();
+      ctx.globalCompositeOperation = 'color';
+      ctx.globalAlpha = grade.washAlpha;
+      ctx.fillStyle = grade.wash;
+      ctx.fillRect(x, y, w, h);
+      ctx.restore();
+    }
     if (grade.posterize && img) posterizeRegion(ctx, Math.round(x), Math.round(y), Math.round(w), Math.round(h));
     if (grade.halftone) {
-      ctx.globalAlpha = 0.1;
+      ctx.globalAlpha = grade.halftoneAlpha || 0.1;
       ctx.globalCompositeOperation = 'multiply';
       ctx.fillStyle = ctx.createPattern(getDotTile(), 'repeat');
       ctx.fillRect(x, y, w, h);

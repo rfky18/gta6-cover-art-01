@@ -1,8 +1,22 @@
-// layouts.js — six multi-panel layouts. Every rect is a fraction of the
+// layouts.js — seven multi-panel layouts. Every rect is a fraction of the
 // cover (x, y, width, height). The editor copies a layout's rects into the
 // live state, so dragging a gutter line can resize panels without touching
 // the layout definition itself.
+// v2: `poster-band` reserves the bottom 34% of the cover for the dedicated
+// title band (lettering.js draws the band + title there), so the giant title
+// never covers a face or a hero's body — the layout the default preset uses.
 export const LAYOUTS = {
+  'poster-band': {
+    name: 'Poster band',
+    band: 0.34,
+    panels: [
+      { x: 0, y: 0, w: 0.56, h: 0.66 },
+      { x: 0.56, y: 0, w: 0.22, h: 0.33 },
+      { x: 0.78, y: 0, w: 0.22, h: 0.33 },
+      { x: 0.56, y: 0.33, w: 0.22, h: 0.33 },
+      { x: 0.78, y: 0.33, w: 0.22, h: 0.33 },
+    ],
+  },
   'hero-five': {
     name: 'Hero and four',
     panels: [

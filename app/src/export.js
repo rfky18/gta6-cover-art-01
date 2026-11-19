@@ -1,5 +1,6 @@
 // export.js — renders the cover at an exact post size and downloads it
 // as a PNG. Rendering is deterministic: same state, same bytes.
+// v2: rejects non-finite sizes instead of rendering a broken canvas.
 import { drawCover } from './cover.js';
 
 export const EXPORT_SIZES = [
@@ -10,6 +11,9 @@ export const EXPORT_SIZES = [
 
 /** Renders the cover at W x H and returns the canvas. */
 export function renderCoverAt(w, h, state, images) {
+  if (!Number.isFinite(w) || !Number.isFinite(h) || w < 1 || h < 1) {
+    throw new Error(`bad export size ${w}x${h}`);
+  }
   const canvas = document.createElement('canvas');
   canvas.width = w;
   canvas.height = h;

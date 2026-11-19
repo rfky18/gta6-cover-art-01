@@ -1,6 +1,7 @@
 // serve.ts — tiny static server for app/ during development only:
 // `node serve.ts` serves app/ on http://localhost:8080. Standard library
 // only; refuses any path outside app/.
+// v2: pass --port 8081 for the Selenium screenshot runs (sel-shoot.py).
 import { createReadStream, statSync } from 'node:fs';
 import { createServer } from 'node:http';
 import { extname, join, normalize, resolve, sep } from 'node:path';

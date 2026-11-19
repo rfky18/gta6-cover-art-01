@@ -134,7 +134,9 @@ function imageMap() {
 // --- rendering ------------------------------------------------------------
 function previewSize() {
   const size = EXPORT_SIZES.find((s) => s.id === state.exportSize) || EXPORT_SIZES[0];
-  const max = 960;
+  // v2: a bigger preview canvas (was 960) fills the editor stage better and
+  // leaves less black void around the cover in editor screenshots.
+  const max = 1120;
   if (size.w >= size.h) return { w: max, h: Math.round((max * size.h) / size.w) };
   return { w: Math.round((max * size.w) / size.h), h: max };
 }
@@ -184,12 +186,18 @@ function applyPreset(preset, record = true) {
   state.badge = preset.badge;
   state.stamp = preset.stamp;
   state.layoutRects = freshRects(preset.layout);
-  state.panels = state.layoutRects.map((_, i) => ({
-    photo: preset.photos[i % preset.photos.length],
-    ox: 0,
-    oy: 0,
-    zoom: 1,
-  }));
+  // v2: a photo entry may be a file name or { photo, ox, oy, zoom } — the
+  // hero's oy keeps her face in frame on the wide hero panel.
+  state.panels = state.layoutRects.map((_, i) => {
+    const spec = preset.photos[i % preset.photos.length];
+    const photo = typeof spec === 'string' ? spec : spec.photo;
+    return {
+      photo,
+      ox: (spec && spec.ox) || 0,
+      oy: (spec && spec.oy) || 0,
+      zoom: (spec && spec.zoom) || 1,
+    };
+  });
   state.selected = 0;
   syncControls();
   render();
@@ -611,6 +619,8 @@ async function boot() {
         const preset = PRESETS.find((p) => p.id === id);
         if (preset) applyPreset(preset, false);
       },
+      // v2: shots may override the grade (?grade=poster-ink) to A/B a grade.
+      applyGrade: (id) => { if (GRADES[id]) applyGrade(id, false); },
       setSize: (id) => {
         state.exportSize = id;
         syncControls();
